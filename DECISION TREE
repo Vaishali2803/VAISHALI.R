@@ -1,0 +1,28 @@
+DECISION TREE
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
+from sklearn import tree
+dis=pd.read_csv('C:/Users/QHAMAR/Downloads/diabetes.csv')
+print("display sample records from the data set are...")
+print(dis.head()) 
+X=dis.drop(['Outcome'],axis=1)
+y=dis['Outcome']
+X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.30,random_state=1)
+clf=DecisionTreeClassifier()
+clf=clf.fit(X_train,y_train)
+y_pred=clf.predict(X_test)
+result=accuracy_score(y_test,y_pred)
+print("Accuracy of the Algorithm=",result*100,"%")
+clf=DecisionTreeClassifier(criterion='entropy',max_depth=7)
+clf=clf.fit(X_train,y_train) 
+y_pred=clf.predict(X_test)
+res=accuracy_score(y_test,y_pred)
+print("The accuracy of modified metrics=",res*100,"%") 
+plt.figure(figsize=(30,20))
+tree.plot_tree(clf,fontsize=40,filled=True,rounded=True,max_depth=3)
+plt.show()
