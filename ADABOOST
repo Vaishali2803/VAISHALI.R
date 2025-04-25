@@ -1,0 +1,21 @@
+ADABOOST
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import LabelEncoder
+data = pd.read_csv('C:/Users/QHAMAR/Downloads/titanic.csv')
+print(data.head())
+print(data.info())
+data = data[['Pclass', 'Sex', 'Age', 'Fare', 'SibSp', 'Parch', 'Survived']].dropna()
+le = LabelEncoder()
+data['Sex'] = le.fit_transform(data['Sex'])
+X = data[['Pclass', 'Sex', 'Age', 'Fare', 'SibSp', 'Parch']]
+y = data['Survived']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+abc = AdaBoostClassifier(n_estimators=50, learning_rate=1, random_state=0)
+model = abc.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+print("AdaBoost Classifier Accuracy: {:.2f}%".format(accuracy_score(y_test, y_pred) * 100))
